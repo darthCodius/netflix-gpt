@@ -1,11 +1,37 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Header from "./Header";
+import { checkValidData, checkValidSignUpData } from "../utils/validate";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
 
+  const [error, setError] = useState(null);
+
+  const name = useRef(null);
+  const email = useRef(null);
+  const password = useRef(null);
+  const confirmPassword = useRef(null);
+
   const toggleSignInForm = () => {
+    setError(null);
     setIsSignInForm(!isSignInForm);
+  };
+
+  const handleButtonClick = (e) => {
+    e.preventDefault();
+    //Validate Form Data
+
+    const message = isSignInForm
+      ? checkValidData(email.current.value, password.current.value)
+      : checkValidSignUpData(
+          name.current.value,
+          email.current.value,
+          password.current.value,
+          confirmPassword.current.value
+        );
+    setError(message);
+
+    //Sign In/Sign Up
   };
 
   return (
@@ -23,6 +49,7 @@ const Login = () => {
           <input
             id="name"
             name="name"
+            ref={name}
             type="text"
             placeholder="Full Name"
             className="py-4 px-4 m-2 rounded-md border border-stone-100 bg-black bg-opacity-40 text-white focus:outline-1 focus:outline-stone-100 focus:outline-offset-[5px]"
@@ -32,6 +59,7 @@ const Login = () => {
           id="email"
           name="email"
           type="text"
+          ref={email}
           placeholder="Email Address"
           className="py-4 px-4 m-2 rounded-md border border-stone-50 bg-black bg-opacity-30 text-white focus:outline-1 focus:outline-stone-50 focus:outline-offset-[5px]"
         />
@@ -40,6 +68,7 @@ const Login = () => {
           id="password"
           name="password"
           type="password"
+          ref={password}
           placeholder="Password"
           className="py-4 px-4 m-2 rounded-md border border-stone-100 bg-black bg-opacity-40 text-white focus:outline-1 focus:outline-stone-100 focus:outline-offset-[5px]"
         />
@@ -48,13 +77,19 @@ const Login = () => {
           <input
             id="confirmpassword"
             name="confirmpassword"
+            ref={confirmPassword}
             type="password"
             placeholder="Confirm Password"
             className="py-4 px-4 m-2 rounded-md border border-stone-100 bg-black bg-opacity-40 text-white focus:outline-1 focus:outline-stone-100 focus:outline-offset-[5px]"
           />
         )}
 
-        <button className="p-2 m-2 font-semibold text-stone-100 rounded-lg bg-red-600 ">
+        {error && <p className="self-center text-red-500 font-bold">{error}</p>}
+
+        <button
+          onClick={(e) => handleButtonClick(e)}
+          className="p-2 m-2 font-semibold text-stone-100 rounded-lg bg-red-600 "
+        >
           {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
         <div className="inline-flex items-center">
