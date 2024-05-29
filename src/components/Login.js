@@ -1,11 +1,23 @@
 import { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData, checkValidSignUpData } from "../utils/validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
+  const navigate = useNavigate();
 
   const [error, setError] = useState(null);
+
+  const dispatch = useDispatch();
 
   const name = useRef(null);
   const email = useRef(null);
@@ -31,7 +43,76 @@ const Login = () => {
         );
     setError(message);
 
-    //Sign In/Sign Up
+    if (message) return;
+
+    //Sign In / Sign Up
+
+    if (!isSignInForm) {
+      //SignUp Logic
+
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: "https://example.com/jane-q-user/profile.jpg",
+          })
+            .then(() => {
+              // Profile updated!
+
+              // ..
+              const { uid, email, displayName } = auth.currentUser;
+
+              dispatch(addUser({ uid, email, displayName }));
+
+              navigate("/browse");
+            })
+            .catch((error) => {
+              // An error occurred
+              // ...
+              setError(error.message);
+            });
+          console.log(user);
+
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          // const errorMessage = error.message;
+
+          if (errorCode === "auth/email-already-in-use")
+            setError("Email already in use. Please sign in!");
+          // ..
+        });
+    } else {
+      //SignIn Logic
+
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          console.log("signed n");
+          navigate("/browse");
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          // const errorMessage = error.message;
+          if (errorCode === "auth/invalid-credential")
+            setError("Invalid Credentials");
+        });
+    }
   };
 
   return (
