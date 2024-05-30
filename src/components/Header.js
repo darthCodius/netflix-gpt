@@ -1,10 +1,48 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UserDropdown from "./UserDropdown";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { addUser, removeUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
+import { LOGO_URL, USER_ICON } from "../utils/constants";
 
 const Header = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const user = useSelector((store) => store.user);
+
+  const dropdownRef = useRef();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        //Sign In
+        const { uid, email, displayName } = user;
+        dispatch(addUser({ uid, email, displayName }));
+        navigate("/browse");
+        // ...
+      } else {
+        //Sign Out
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const handler = (event) => {
+      if (!dropdownRef.current?.contains(event.target)) {
+        setToggleMenu(false);
+      }
+    };
+    window.addEventListener("click", handler);
+    return () => window.removeEventListener("click", handler);
+  }, []);
 
   const handleToggle = () => {
     setToggleMenu((curr) => !curr);
@@ -12,19 +50,19 @@ const Header = () => {
 
   return (
     <>
-      <div className="w-screen flex justify-between items-center">
+      <div className="w-screen flex justify-between items-center mb-[100px]">
         <div>
           <img
-            className="w-40 "
-            src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+            className="w-24 md:w-36 lg:w-40 xl:w-40"
+            src={LOGO_URL}
             alt="netflix-logo"
           />
         </div>
         {user && (
-          <div className="flex mr-5 gap-3">
+          <div id="dropdown" ref={dropdownRef} className="flex mr-5 gap-3">
             <img
               className="rounded-md cursor-pointer"
-              src="https://occ-0-3646-3647.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABTZ2zlLdBVC05fsd2YQAR43J6vB1NAUBOOrxt7oaFATxMhtdzlNZ846H3D8TZzooe2-FT853YVYs8p001KVFYopWi4D4NXM.png?r=229"
+              src={USER_ICON}
               alt="user-icon"
               onClick={handleToggle}
             />
