@@ -50,7 +50,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="w-screen flex justify-between items-center mb-[100px]">
+      <div className="w-screen flex justify-between items-center xl:mb-[100px]">
         <div>
           <img
             className="w-24 md:w-36 lg:w-40 xl:w-40"
