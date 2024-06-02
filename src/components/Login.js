@@ -117,7 +117,12 @@ const Login = () => {
     >
       <Header />
 
-      <form className="py-12 px-[68px] flex gap-2 flex-col bg-black bg-opacity-60 rounded-xl lg:w-[450px] lg:mx-auto lg:my-0 md:w-[450px] md:mx-auto md:my-0 sm:w-[450px] sm:mx-auto sm:my-0">
+      <form
+        className={`py-12 px-[68px] flex gap-2 flex-col bg-black bg-opacity-60 rounded-xl lg:w-[450px] lg:mx-auto lg:my-0 md:w-[450px] md:mx-auto md:my-0 sm:w-[450px] sm:mx-auto sm:my-0 ${
+          !isSignInForm &&
+          "overflow-scroll xl:overflow-hidden h-[450px] xl:h-fit"
+        }`}
+      >
         <h1 className="text-white font-bold mb-4 text-3xl m-2">
           {isSignInForm ? "Sign In" : "Sign Up"}
         </h1>
