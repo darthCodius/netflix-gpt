@@ -26,7 +26,7 @@ const UserDropdown = () => {
       });
 
   return (
-    <div className="absolute right-2 top-14 shadow-xl p-6 rounded-xl bg-black text-stone-50  flex flex-col gap-5">
+    <div className="absolute right-8 top-10 md:top-14 lg:top-14 xl:top-14 shadow-xl p-6 rounded-xl bg-black text-stone-50  flex flex-col gap-5">
       <h1>Welcome, {userName}</h1>
       <ul className="flex flex-col gap-2 text-sm border-y-2 py-4 border-stone-100">
         <li className="cursor-pointer hover:underline">Account</li>

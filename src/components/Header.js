@@ -50,16 +50,16 @@ const Header = () => {
 
   return (
     <>
-      <div className="w-screen flex justify-between items-center xl:mb-[100px]">
+      <div className="flex w-screen justify-between items-center absolute z-50 bg-gradient-to-b from-black">
         <div>
           <img
-            className="w-24 md:w-36 lg:w-40 xl:w-40"
+            className="w-24 md:w-36 lg:w-40 xl:w-40 ml-10"
             src={LOGO_URL}
             alt="netflix-logo"
           />
         </div>
         {user && (
-          <div id="dropdown" ref={dropdownRef} className="flex mr-5 gap-3">
+          <div id="dropdown" ref={dropdownRef} className="mr-10">
             <img
               className="rounded-md cursor-pointer"
               src={USER_ICON}

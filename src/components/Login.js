@@ -112,13 +112,13 @@ const Login = () => {
 
   return (
     <div
-      className=" h-dvh w-dvw bg-black  sm:bg-black/60 sm:bg-blend-overlay md:bg-black/60 md:bg-blend-overlay lg:bg-black/60 lg:bg-blend-overlay
+      className=" h-dvh w-dvw bg-black relative sm:bg-black/60 sm:bg-blend-overlay md:bg-black/60 md:bg-blend-overlay lg:bg-black/60 lg:bg-blend-overlay
     xl:bg-black/60 xl:bg-blend-overlay sm:bg-protectedBgLarge md:bg-protectedBgLarge lg:bg-protectedBgLarge xl:bg-protectedBgLarge bg-no-repeat "
     >
       <Header />
 
       <form
-        className={`py-12 px-[68px] flex gap-2 flex-col bg-black bg-opacity-60 rounded-xl lg:w-[450px] lg:mx-auto lg:my-0 md:w-[450px] md:mx-auto md:my-0 sm:w-[450px] sm:mx-auto sm:my-0 ${
+        className={`py-12 px-[68px] absolute inset-0 h-fit top-[10%] flex gap-2 flex-col bg-black bg-opacity-60 rounded-xl lg:w-[450px] lg:mx-auto lg:my-0 md:w-[450px] md:mx-auto md:my-0 sm:w-[450px] sm:mx-auto sm:my-0 ${
           !isSignInForm &&
           "overflow-scroll xl:overflow-hidden h-[450px] xl:h-fit"
         }`}
