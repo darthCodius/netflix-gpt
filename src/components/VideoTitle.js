@@ -4,7 +4,7 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 
 const VideoTitle = ({ title, overview }) => {
   return (
-    <div className="flex flex-col gap-2 top-14 md:gap-6 lg:gap-6 xl:gap-6 w-2/3 md:w-3/4 lg:w-3/4 xl:w-1/4 ml-10 absolute md:top-24 lg:top-[15rem] xl:top-[25rem]">
+    <div className="flex flex-col gap-2 top-14 md:gap-6 lg:gap-6 xl:gap-6 w-3/4 md:w-3/4 lg:w-3/4 xl:w-1/4 ml-10 absolute md:top-24 lg:top-[15rem] xl:top-[25rem]">
       <h1 className="font-bold text-xl md:text-2xl lg:text-3xl xl:text-4xl text-stone-100">
         {title}
       </h1>
